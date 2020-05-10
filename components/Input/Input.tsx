@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Input = ({ value, handleChange, placeholder, handleSubmit }: Props) => {
-  function handlePressEnter(e) {
+  function handlePressEnter(e: React.KeyboardEvent<HTMLInputElement>) {
     if (value && e && e.key === 'Enter' && handleSubmit) {
       handleSubmit();
     }

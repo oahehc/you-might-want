@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { MdWarning } from 'react-icons/md';
-import { Loading } from '@elements/index';
+import { Loading } from '@components/index';
 import styles, { modalHeaderStyle, modalFooterStyle } from './Modal.style';
 
 const ModalHeader: React.FC = ({ children }) => (
@@ -32,7 +32,8 @@ class Modal extends React.Component<Props> {
 
   myRef = React.createRef<HTMLDivElement>();
 
-  clickOutsideClose = e => {
+  clickOutsideClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    // @ts-ignore
     if (!this.myRef.current || this.myRef.current.contains(e.target)) {
       return;
     }
