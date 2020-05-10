@@ -12,8 +12,21 @@ const config = {
 };
 const docClient = new AWS.DynamoDB.DocumentClient({ ...config, apiVersion: '2012-08-10' });
 
+type UserProfile = {
+  userId: string;
+  email: string;
+  name: string;
+  created: string;
+  lastVisited: string;
+  wallet?: string;
+};
+
 // get user profile
-export function getUser(userId: string): Promise<any> {
+export function getUser(
+  userId: string
+): Promise<{
+  Item: UserProfile;
+}> {
   const params = {
     TableName: userTable,
     Key: {
@@ -24,19 +37,12 @@ export function getUser(userId: string): Promise<any> {
   return new Promise((resolve, reject) => {
     docClient.get(params, (err, data) => {
       if (err) reject(err);
+      // @ts-ignore
       else resolve(data);
     });
   });
 }
 // create user profile
-type UserProfile = {
-  userId: string;
-  email: string;
-  name: string;
-  created: string;
-  lastVisited: string;
-  wallet?: string;
-};
 export function postUser(data: UserProfile): Promise<any> {
   const params = {
     TableName: userTable,
@@ -65,6 +71,29 @@ export function patchUserLastVisited(userId: string): Promise<any> {
       ':now': now,
     },
     UpdateExpression: 'SET #lastVisited = :now',
+  };
+
+  return new Promise((resolve, reject) => {
+    docClient.update(params, (err, data) => {
+      if (err) reject(err);
+      else resolve(data);
+    });
+  });
+}
+// update user wallet
+export function patchUserWallet(userId: string, wallet: string): Promise<any> {
+  const params = {
+    TableName: userTable,
+    Key: {
+      userId,
+    },
+    ExpressionAttributeNames: {
+      '#wallet': 'wallet',
+    },
+    ExpressionAttributeValues: {
+      ':wallet': wallet,
+    },
+    UpdateExpression: 'SET #wallet = :wallet',
   };
 
   return new Promise((resolve, reject) => {

@@ -16,6 +16,7 @@ type GoogleOAuthProfileType = {
   alg?: string;
   kid?: string;
   typ?: string;
+  wallet?: string;
 };
 
 type GoogleOAuthTokenType = {

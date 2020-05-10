@@ -6,11 +6,16 @@ type Props = {
   src?: string;
   name?: string;
   size: 's' | 'm' | 'l';
+  onClick?: () => void;
 };
 
-const Avatar = ({ src, name, size }: Props) => {
+const Avatar = ({ src, name, size, onClick }: Props) => {
   const firstLetter = name ? name[0].toUpperCase() : '?';
   const style = {};
+
+  function handleClick() {
+    if (onClick) onClick();
+  }
 
   // only display image if load success
   const [isImgLoaded, setImgLoaded] = useState<boolean>(false);
@@ -28,7 +33,7 @@ const Avatar = ({ src, name, size }: Props) => {
   }
 
   return (
-    <div className={cx('wrapper', size)} style={style}>
+    <div className={cx('wrapper', size)} style={style} onClick={handleClick}>
       {!isImgLoaded && firstLetter}
       <style jsx>{styles}</style>
     </div>

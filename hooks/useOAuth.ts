@@ -16,6 +16,7 @@ type UseOAuthResponse = {
   handleLogout: () => void;
   handleExchangeAuthCodeToToken: (c: string) => Promise<null>;
   authRequestFactory: (baseUrl?: string) => AxiosInstance;
+  updateProfile: (d: any) => void;
 };
 
 type authStateType = {
@@ -134,9 +135,9 @@ function useOAuth(): UseOAuthResponse {
     const { access_token, refresh_token, id_token } = data || {};
     if (id_token) {
       const { data } = await getProfileByIdTokenApi(id_token);
-      const { sub, email, name, picture } = data || {};
-      dispatch({ type: 'login', data: { sub, email, name, picture } });
-      setProfile({ sub, email, name, picture });
+      const { sub, email, name, picture, wallet } = data || {};
+      dispatch({ type: 'login', data: { sub, email, name, picture, wallet } });
+      setProfile({ sub, email, name, picture, wallet });
       setAccessToken(access_token);
       setRefreshToken(refresh_token);
 
@@ -216,7 +217,14 @@ function useOAuth(): UseOAuthResponse {
     return axiosInstance;
   }
 
-  return { oauthState, handleLogin, handleLogout, handleExchangeAuthCodeToToken, authRequestFactory };
+  function updateProfile(data: any) {
+    setProfile({
+      ...profile,
+      ...data,
+    });
+  }
+
+  return { oauthState, handleLogin, handleLogout, handleExchangeAuthCodeToToken, authRequestFactory, updateProfile };
 }
 
 export default useOAuth;

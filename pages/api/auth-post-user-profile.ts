@@ -20,13 +20,26 @@ export default async (req: express.Request, res: express.Response) => {
       const res = await getProfileByIdToken(idToken);
 
       if (res && res.sub) {
-        response(StatusCode.success, { data: res });
-
         const profileRes = await getUser(res.sub);
 
         if (profileRes && profileRes.Item) {
+          const wallet = profileRes.Item.wallet || '';
+          response(StatusCode.success, {
+            data: {
+              ...res,
+              wallet,
+            },
+          });
+
           await patchUserLastVisited(res.sub);
         } else {
+          response(StatusCode.success, {
+            data: {
+              ...res,
+              wallet: '',
+            },
+          });
+
           const { sub, email, name } = res;
           const now = new Date().toISOString();
           postUser({
