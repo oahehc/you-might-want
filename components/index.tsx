@@ -5,3 +5,4 @@ export { Modal } from './Modal/Modal';
 export { Input } from './Input/Input';
 export { Notice } from './Notice/Notice';
 export { Avatar } from './Avatar/Avatar';
+export { Account } from './Account/Account';
