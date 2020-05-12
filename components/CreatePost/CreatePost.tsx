@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useOAuth from '@hooks/useOAuth';
 import { apiUrl, postPostApi } from '@utils/apis';
-import { Loading, Avatar, Modal, Button, Input } from '@components/index';
+import { Loading, Avatar, Button } from '@components/index';
 import styles from './CreatePost.style';
 
 const MAX_INPUT = 500;
@@ -10,8 +10,9 @@ const CreatePost: React.FC = () => {
   const { oauthState, authRequestFactory } = useOAuth();
   const authRequest = authRequestFactory(apiUrl);
   const { sub, picture, name, email } = (oauthState && oauthState.profile) || {};
-  const { isInit, isLogin } = oauthState || {};
+  const { isLogin } = oauthState || {};
   const [text, setText] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   function handleTyping(event: React.ChangeEvent<HTMLTextAreaElement>) {
     // TODO: prevent hyperlink?
@@ -22,11 +23,14 @@ const CreatePost: React.FC = () => {
   async function handleSubmit() {
     if (text) {
       try {
+        setSubmitting(true);
         // @ts-ignore
         await postPostApi(sub, text, authRequest);
         setText('');
+        setSubmitting(false);
         // TODO: insert the new post to the top of the list
       } catch (error) {
+        setSubmitting(false);
         // TODO: error handle
       }
     }
@@ -47,8 +51,13 @@ const CreatePost: React.FC = () => {
         {text.length} / {MAX_INPUT}
       </span>
       <div className="button">
-        <Button onClick={handleSubmit} invert={!text} disabled={!text}>
-          Submit
+        <Button
+          onClick={handleSubmit}
+          invert={!text}
+          disabled={!text || isSubmitting}
+          style={{ width: '100px', height: '40px' }}
+        >
+          {isSubmitting ? <Loading /> : 'Submit'}
         </Button>
       </div>
       <style jsx>{styles}</style>
