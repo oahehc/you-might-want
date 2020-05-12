@@ -9,8 +9,7 @@ const Account: React.FC = () => {
   const { oauthState, handleLogin, handleLogout, authRequestFactory, updateProfile } = useOAuth();
   const authRequest = authRequestFactory(apiUrl);
   const { sub, picture, name, email, wallet: currentWallet } = (oauthState && oauthState.profile) || {};
-  const isInit = oauthState && oauthState.status === 'init';
-  const isLogin = oauthState && oauthState.status === 'login';
+  const { isInit, isLogin } = oauthState || {};
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [wallet, setWallet] = useState(currentWallet || '');
 

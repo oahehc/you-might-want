@@ -22,6 +22,8 @@ type UseOAuthResponse = {
 type authStateType = {
   status: OAuthStateType;
   profile: GoogleOAuthProfileType | null | undefined;
+  isLogin?: boolean;
+  isInit?: boolean;
 };
 let globalAuthState: authStateType = {
   status: 'init',
@@ -224,7 +226,21 @@ function useOAuth(): UseOAuthResponse {
     });
   }
 
-  return { oauthState, handleLogin, handleLogout, handleExchangeAuthCodeToToken, authRequestFactory, updateProfile };
+  const state = {
+    status: oauthState.status,
+    profile: oauthState.profile,
+    isInit: oauthState.status === 'init',
+    isLogin: oauthState.status === 'login',
+  };
+
+  return {
+    oauthState: state,
+    handleLogin,
+    handleLogout,
+    handleExchangeAuthCodeToToken,
+    authRequestFactory,
+    updateProfile,
+  };
 }
 
 export default useOAuth;
