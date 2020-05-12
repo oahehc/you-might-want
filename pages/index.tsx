@@ -1,11 +1,11 @@
-import { Account } from '@components/index';
+import { Account, CreatePost } from '@components/index';
 
 const IndexPage = () => {
   return (
-    <div>
-      <h1>Hello Next.js 👋</h1>
+    <>
       <Account />
-    </div>
+      <CreatePost />
+    </>
   );
 };
 
