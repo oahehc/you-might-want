@@ -1,7 +1,7 @@
 import express from 'express';
 import { responseFactory, StatusCode } from '@utils/apiUtils';
 import { verifyToken } from '@apis/google';
-import { patchUserWallet } from '@apis/aws';
+import { postPost } from '@apis/aws';
 
 export default async (req: express.Request, res: express.Response) => {
   res.setHeader('Content-Type', 'application/json');
@@ -10,7 +10,7 @@ export default async (req: express.Request, res: express.Response) => {
   try {
     let hasError = false;
     const { authorization } = req.headers;
-    const { id, wallet } = req.body;
+    const { id, text } = req.body;
 
     if (!authorization) {
       hasError = true;
@@ -22,9 +22,9 @@ export default async (req: express.Request, res: express.Response) => {
       response(StatusCode.missParam, { errorMsg: 'miss param: id' });
     }
 
-    if (!wallet) {
+    if (!text) {
       hasError = true;
-      response(StatusCode.missParam, { errorMsg: 'miss param: wallet' });
+      response(StatusCode.missParam, { errorMsg: 'miss param: text' });
     }
 
     if (!hasError) {
@@ -32,9 +32,12 @@ export default async (req: express.Request, res: express.Response) => {
         // @ts-ignore
         await verifyToken(authorization);
 
-        patchUserWallet({ userId: id, wallet })
-          .then(() => {
-            response(StatusCode.success, { res: 'patchUserWallet success' });
+        postPost({
+          userId: id,
+          text,
+        })
+          .then(res => {
+            response(StatusCode.success, { res: 'postPost success' });
           })
           .catch(err => response(StatusCode.unKnowError, { errorMsg: err.message }));
       } catch (e) {

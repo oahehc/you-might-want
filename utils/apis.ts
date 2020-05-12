@@ -27,3 +27,14 @@ export const patchUserWalletApi = (id: string, wallet: string, authInstance?: Ax
       .catch(reject);
   });
 };
+
+export const postPostApi = (id: string, text: string, authInstance?: AxiosInstance): Promise<any> => {
+  const instance = authInstance || axiosInstance;
+
+  return new Promise((resolve, reject) => {
+    instance
+      .post(`${apiUrl}/api/post-post`, { id, text })
+      .then(res => resolve(res))
+      .catch(reject);
+  });
+};

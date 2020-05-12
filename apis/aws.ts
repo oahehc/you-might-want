@@ -4,6 +4,7 @@ const region = process.env.aws_region || 'us-east-1';
 const accessKeyId = process.env.aws_access_key_id;
 const secretAccessKey = process.env.aws_secret_access_key;
 const userTable = 'you-might-want-users';
+const postTable = 'you-might-want-posts';
 
 const config = {
   region,
@@ -81,7 +82,11 @@ export function patchUserLastVisited(userId: string): Promise<any> {
   });
 }
 // update user wallet
-export function patchUserWallet(userId: string, wallet: string): Promise<any> {
+type PatchUserWalletInput = {
+  userId: string;
+  wallet: string;
+};
+export function patchUserWallet({ userId, wallet }: PatchUserWalletInput): Promise<any> {
   const params = {
     TableName: userTable,
     Key: {
@@ -100,6 +105,32 @@ export function patchUserWallet(userId: string, wallet: string): Promise<any> {
     docClient.update(params, (err, data) => {
       if (err) reject(err);
       else resolve(data);
+    });
+  });
+}
+// create post
+type PostPostInput = {
+  userId: string;
+  text: string;
+};
+export function postPost({ userId, text }: PostPostInput): Promise<any> {
+  const now = new Date().toISOString();
+  const data = {
+    userId,
+    text,
+    created: now,
+    upVotes: [],
+    downVotes: [],
+  };
+  const params = {
+    TableName: userTable,
+    Item: data,
+  };
+
+  return new Promise((resolve, reject) => {
+    docClient.put(params, (err, res) => {
+      if (err) reject(err);
+      else resolve(res);
     });
   });
 }
