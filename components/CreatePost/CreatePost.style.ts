@@ -8,11 +8,8 @@ export default css`
     margin: 50px auto 10px;
     display: grid;
     grid-gap: 3px;
-    grid-template-columns: 40px 100px auto 100px;
+    grid-template-columns: 40px 100px auto 100px 5px; /* 5px extra space to make the content look more like is aligning center */
     grid-template-rows: auto 42px;
-    grid-template-areas:
-      'avatar input input input'
-      'avatar count na button';
 
     > textarea {
       grid-column: 2 / span 3;
