@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { v1 as uuidv1 } from 'uuid';
 
 const region = process.env.aws_region || 'us-east-1';
 const accessKeyId = process.env.aws_access_key_id;
@@ -116,6 +117,7 @@ type PostPostInput = {
 export function postPost({ userId, text }: PostPostInput): Promise<any> {
   const now = new Date().toISOString();
   const data = {
+    postId: uuidv1(),
     userId,
     text,
     created: now,
@@ -123,7 +125,7 @@ export function postPost({ userId, text }: PostPostInput): Promise<any> {
     downVotes: [],
   };
   const params = {
-    TableName: userTable,
+    TableName: postTable,
     Item: data,
   };
 
