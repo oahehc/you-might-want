@@ -38,3 +38,21 @@ export const postPostApi = (id: string, text: string, authInstance?: AxiosInstan
       .catch(reject);
   });
 };
+
+type GetPostPramsType = {
+  startKey?: PostsPaginateKey;
+};
+type GetPostsResponse = {
+  statusCode: number;
+  data: Post[];
+  lastKey: PostsPaginateKey | null;
+};
+export const getPostsApi = ({ startKey }: GetPostPramsType): Promise<GetPostsResponse> => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .post(`${apiUrl}/api/get-posts`, { startKey })
+      // @ts-ignore
+      .then(res => resolve(res))
+      .catch(reject);
+  });
+};

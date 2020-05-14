@@ -123,6 +123,7 @@ export function postPost({ userId, text }: PostPostInput): Promise<any> {
     created: now,
     upVotes: [],
     downVotes: [],
+    isDisplay: 1,
   };
   const params = {
     TableName: postTable,
@@ -133,6 +134,43 @@ export function postPost({ userId, text }: PostPostInput): Promise<any> {
     docClient.put(params, (err, res) => {
       if (err) reject(err);
       else resolve(res);
+    });
+  });
+}
+
+type GetPostsInput = {
+  startKey: string;
+};
+type GetPostsResponse = {
+  Items: Post[];
+  Count: number;
+  ScannedCount: number;
+  LastEvaluatedKey: PostsPaginateKey;
+};
+export function getPosts({ startKey }: GetPostsInput): Promise<GetPostsResponse> {
+  const params = {
+    TableName: postTable,
+    IndexName: 'isDisplay-created-index',
+    KeyConditions: {
+      isDisplay: {
+        ComparisonOperator: 'EQ',
+        AttributeValueList: [1],
+      },
+    },
+    Limit: 5, // FIXME:
+    ScanIndexForward: false,
+  };
+
+  if (startKey && Object.keys(startKey).length > 0) {
+    // @ts-ignore
+    params.ExclusiveStartKey = startKey;
+  }
+
+  return new Promise((resolve, reject) => {
+    docClient.query(params, (err, data) => {
+      if (err) reject(err);
+      // @ts-ignore
+      else resolve(data);
     });
   });
 }

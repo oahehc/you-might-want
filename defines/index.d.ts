@@ -26,3 +26,19 @@ type GoogleOAuthTokenType = {
   token_type: string;
   id_token: string;
 };
+
+type Post = {
+  postId: string;
+  userId: string;
+  created: string;
+  text: string;
+  downVotes: string[];
+  upVotes: string[];
+  isDisplay: boolean;
+};
+
+type PostsPaginateKey = {
+  isDisplay: boolean;
+  created: string;
+  postId: string;
+};
