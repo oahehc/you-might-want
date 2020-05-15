@@ -51,9 +51,9 @@ const Login = () => {
             justify-content: center;
           }
           h2 {
-            font-size: 24px;
+            font-size: 2.4rem;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
           }
         `}</style>
       </div>

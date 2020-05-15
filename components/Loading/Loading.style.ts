@@ -1,8 +1,8 @@
 import css from 'styled-jsx/css';
 import * as vars from '@styles/vars';
 
-const DOT_SIZE = '8px';
-const DOT_SPACE = '16px';
+const DOT_SIZE = '0.8rem';
+const DOT_SPACE = '1.6rem';
 
 export default css`
   @mixin dot($color, $duration, $delay) {

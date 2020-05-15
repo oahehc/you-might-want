@@ -2,12 +2,12 @@ import css from 'styled-jsx/css';
 
 export default css`
   h2 {
-    font-size: 24px;
-    margin: 10px 0 30px;
+    font-size: 2.4rem;
+    margin: 1rem 0 3rem;
   }
 
   .google-icon {
-    width: 30px;
-    margin-right: 10px;
+    width: 3rem;
+    margin-right: 1rem;
   }
 `;

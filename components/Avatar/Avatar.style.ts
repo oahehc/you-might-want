@@ -13,23 +13,23 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 2px;
+    margin: 0.2rem;
     color: ${vars.white};
 
     &.s {
-      width: 16px;
-      height: 16px;
-      font-size: 10px;
+      width: 1.6rem;
+      height: 1.6rem;
+      font-size: 1rem;
     }
     &.m {
-      width: 24px;
-      height: 24px;
-      font-size: 14px;
+      width: 2.4rem;
+      height: 2.4rem;
+      font-size: 1.4rem;
     }
     &.l {
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
+      width: 3.6rem;
+      height: 3.6rem;
+      font-size: 1.8rem;
       font-weight: 600;
     }
   }

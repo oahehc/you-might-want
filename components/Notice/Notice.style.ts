@@ -13,7 +13,7 @@ export default css`
 
     :global(svg) {
       fill: ${vars.green};
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
   }
 
@@ -22,7 +22,7 @@ export default css`
 
     :global(svg) {
       fill: ${vars.grey3};
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
   }
 
@@ -31,7 +31,7 @@ export default css`
 
     :global(svg) {
       fill: ${vars.orange};
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
   }
 
@@ -40,7 +40,7 @@ export default css`
 
     :global(svg) {
       fill: ${vars.red};
-      margin-right: 5px;
+      margin-right: 0.5rem;
     }
   }
 `;

@@ -4,7 +4,7 @@ import * as vars from '@styles/vars';
 export default css`
   .post__wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 50rem;
     margin: 0 auto;
   }
 

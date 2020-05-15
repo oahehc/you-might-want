@@ -3,12 +3,12 @@ import * as vars from '@styles/vars';
 
 export default css`
   button {
-    border: 2px solid ${vars.grey2};
+    border: 0.2rem solid ${vars.grey2};
     background-color: ${vars.grey2};
     color: ${vars.grey5};
-    border-radius: 2px;
-    padding: 10px 20px;
-    font-size: 16px;
+    border-radius: 0.2rem;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
     font-weight: 600;
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@ export default css`
 
     :global(svg + span),
     :global(span + svg) {
-      margin-left: 5px;
+      margin-left: 0.5rem;
     }
 
     &:hover {

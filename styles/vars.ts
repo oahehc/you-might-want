@@ -3,9 +3,6 @@ export const mobileWidth = '600px';
 export const padWidth = '900px';
 export const nbWidth = '1200px';
 export const dtWidth = '1440px';
-export const toastHeight = '200px';
-export const layoutMaxWidth = '1200px';
-export const headerHeight = '60px';
 
 // z-index
 export const backgroundIndex = 0;

@@ -4,8 +4,8 @@ import * as vars from '@styles/vars';
 export const modalHeaderStyle = css`
   .modal__header {
     border-bottom: 1px solid ${vars.grey5};
-    margin-bottom: 10px;
-    padding-bottom: 5px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
     font-weight: 600;
     display: flex;
     justify-content: flex-start;
@@ -15,8 +15,8 @@ export const modalHeaderStyle = css`
 export const modalFooterStyle = css`
   .modal__footer {
     border-top: 1px solid ${vars.grey5};
-    margin-top: 10px;
-    padding-top: 5px;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -26,7 +26,7 @@ export const modalFooterStyle = css`
     }
 
     :global(button + button) {
-      margin-left: 10px;
+      margin-left: 1rem;
     }
   }
 `;
@@ -51,17 +51,17 @@ export default css`
       max-height: 80vh;
       overflow: auto;
       background-color: ${vars.white};
-      padding: 10px;
+      padding: 1rem;
       line-height: 1.5em;
     }
 
     .modal__error {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
 
       :global(svg) {
         fill: ${vars.red};
-        font-size: 36px;
+        font-size: 3.6rem;
       }
     }
   }
