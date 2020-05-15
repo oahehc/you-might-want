@@ -22,6 +22,7 @@ export default css`
     }
 
     > span {
+      font-size: 1.2rem;
       grid-row: 2 / span 1;
       grid-column: 2 / span 1;
       justify-self: flex-start;

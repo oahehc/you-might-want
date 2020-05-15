@@ -38,7 +38,6 @@ const Login = () => {
   }, [code]);
 
   if (code) {
-    // TODO: display some random quote while handling the token exchange
     return (
       <div className="wrapper">
         <h2>Login Your Account...</h2>

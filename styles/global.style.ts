@@ -12,10 +12,11 @@ export default css.global`
   body {
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow: auto;
     -ms-overflow-style: scrollbar;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: ${vars.white};
+    font-size: 62.5%;
   }
 `;
