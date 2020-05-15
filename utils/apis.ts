@@ -39,20 +39,17 @@ export const postPostApi = (id: string, text: string, authInstance?: AxiosInstan
   });
 };
 
-type GetPostPramsType = {
-  startKey?: PostsPaginateKey;
-};
 type GetPostsResponse = {
   statusCode: number;
-  data: Post[];
+  list: Post[];
   lastKey: PostsPaginateKey | null;
 };
-export const getPostsApi = ({ startKey }: GetPostPramsType): Promise<GetPostsResponse> => {
+export const getPostsApi = (startKey?: PostsPaginateKey | null): Promise<GetPostsResponse> => {
+  const data = startKey ? { startKey } : {};
   return new Promise((resolve, reject) => {
     axiosInstance
-      .post(`${apiUrl}/api/get-posts`, { startKey })
-      // @ts-ignore
-      .then(res => resolve(res))
+      .post(`${apiUrl}/api/get-posts`, data)
+      .then(res => resolve(res.data))
       .catch(reject);
   });
 };

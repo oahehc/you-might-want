@@ -17,7 +17,7 @@ export default async (req: express.Request, res: express.Response) => {
             const result = data || {};
             const list = result.Items || [];
             const lastKey = (result.LastEvaluatedKey && result.LastEvaluatedKey) || null;
-            response(StatusCode.success, { data: { list, lastKey } });
+            response(StatusCode.success, { list, lastKey });
           })
           .catch(err => response(StatusCode.unKnowError, { errorMsg: err.message }));
       } catch (e) {
