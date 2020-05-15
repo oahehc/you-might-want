@@ -1,10 +1,11 @@
-import { Account, CreatePost } from '@components/index';
+import { Account, CreatePost, PostList } from '@components/index';
 
 const IndexPage = () => {
   return (
     <>
       <Account />
       <CreatePost />
+      <PostList />
     </>
   );
 };

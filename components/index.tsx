@@ -7,3 +7,5 @@ export { Notice } from './Notice/Notice';
 export { Avatar } from './Avatar/Avatar';
 export { Account } from './Account/Account';
 export { CreatePost } from './CreatePost/CreatePost';
+export { PostList } from './PostList/PostList';
+export { Time } from './Time/Time';
