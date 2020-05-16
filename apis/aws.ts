@@ -158,7 +158,7 @@ export function getPosts({ startKey, isRevest }: GetPostsInput): Promise<GetPost
         AttributeValueList: [1],
       },
     },
-    Limit: 5, // FIXME:
+    Limit: 20,
     ScanIndexForward: !!isRevest,
   };
 
