@@ -9,3 +9,4 @@ export { Account } from './Account/Account';
 export { CreatePost } from './CreatePost/CreatePost';
 export { PostList } from './PostList/PostList';
 export { Time } from './Time/Time';
+export { VoteButton } from './VoteButton/VoteButton';
