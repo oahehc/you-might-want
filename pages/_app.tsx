@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import App from 'next/app';
+import { GlobalModalProvider } from '@contexts/GlobalModal';
 import globalStyle from '@styles/global.style';
 import resetStyle from '@styles/reset.style';
 
@@ -21,7 +22,9 @@ export default class MyApp extends App {
         <style global jsx>
           {globalStyle}
         </style>
-        <Component {...pageProps} />
+        <GlobalModalProvider>
+          <Component {...pageProps} />
+        </GlobalModalProvider>
       </>
     );
   }

@@ -24,7 +24,8 @@
       "@utils/*": ["./utils/*"],
       "@hooks/*": ["./hooks/*"],
       "@constants/*": ["./constants/*"],
-      "@apis/*": ["./apis/*"]
+      "@apis/*": ["./apis/*"],
+      "@contexts/*": ["./contexts/*"]
     }
   },
   "exclude": ["node_modules"],

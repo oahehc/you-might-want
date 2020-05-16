@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdThumbDown, MdThumbUp } from 'react-icons/md';
 import cx from 'classnames';
+import { useGlobalModalContext } from '@contexts/GlobalModal';
 import useOAuth from '@hooks/useOAuth';
 import useMonetization from '@hooks/useMonetization';
 import { apiUrl, patchVote } from '@utils/apis';
@@ -19,13 +20,14 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
   const isVoted = sub && votes.includes(sub);
   const { isLogin } = oauthState || {};
   const [{ isStarted }] = useMonetization();
+  const { showRegisterModal, showMonetizationModal } = useGlobalModalContext();
 
   async function handleVote() {
     if (!isLogin) {
-      // TODO: register notification
+      showRegisterModal();
     } else if (!isStarted) {
-      // TODO: allow monetization user vote without register?
-      // TODO: monetization notification
+      // DISCUSS: allow monetization user vote without register?
+      showMonetizationModal();
     } else {
       await patchVote(
         {

@@ -41,11 +41,14 @@ export default function useMonetization(): [MonetizationInfo] {
 
     return () => {
       // @ts-ignore
-      document.monetization.removeEventListener('monetizationstart', startedEventHandler);
-      // @ts-ignore
-      document.monetization.removeEventListener('monetizationpending', pendingEventHandler);
-      // @ts-ignore
-      document.monetization.removeEventListener('monetizationstop', stoppedEventHandler);
+      if (document !== undefined && document.monetization !== undefined) {
+        // @ts-ignore
+        document.monetization.removeEventListener('monetizationstart', startedEventHandler);
+        // @ts-ignore
+        document.monetization.removeEventListener('monetizationpending', pendingEventHandler);
+        // @ts-ignore
+        document.monetization.removeEventListener('monetizationstop', stoppedEventHandler);
+      }
     };
   }, []);
 
