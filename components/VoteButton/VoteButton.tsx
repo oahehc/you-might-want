@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdThumbDown, MdThumbUp } from 'react-icons/md';
 import cx from 'classnames';
 import { useGlobalModalContext } from '@contexts/GlobalModal';
@@ -21,6 +21,7 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
   const { isLogin } = oauthState || {};
   const [{ isStarted }] = useMonetization();
   const { showRegisterModal, showMonetizationModal } = useGlobalModalContext();
+  const [animate, setAnimate] = useState<'plus' | 'minus' | ''>('');
 
   async function handleVote() {
     if (!isLogin) {
@@ -29,6 +30,7 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
       // DISCUSS: allow monetization user vote without register?
       showMonetizationModal();
     } else {
+      setAnimate(isVoted ? 'minus' : 'plus');
       await patchVote(
         {
           type,
@@ -36,6 +38,7 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
         },
         authRequest
       );
+      setAnimate('');
     }
   }
 
@@ -44,6 +47,8 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
       className={cx('wrapper', {
         active: isVoted,
         disabled: !isLogin,
+        plus_animate: animate === 'plus',
+        minus_animate: animate === 'minus',
       })}
       onClick={handleVote}
     >
