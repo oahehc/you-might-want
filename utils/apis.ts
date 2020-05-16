@@ -47,8 +47,11 @@ export type GetPostsResponse = {
   list: Post[];
   lastKey: PostsPaginateKey | null;
 };
-export const getPostsApi = (startKey?: PostsPaginateKey | null): Promise<GetPostsResponse> => {
-  const data = startKey ? { startKey } : {};
+export const getPostsApi = (startKey?: PostsPaginateKey | null, isRevest?: boolean): Promise<GetPostsResponse> => {
+  const data = {
+    startKey,
+    isRevest,
+  };
   return new Promise((resolve, reject) => {
     axiosInstance
       .post(`${apiUrl}/api/get-posts`, data)

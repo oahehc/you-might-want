@@ -8,11 +8,11 @@ export default async (req: express.Request, res: express.Response) => {
 
   try {
     let hasError = false;
-    const { startKey } = req.body;
+    const { startKey, isRevest } = req.body;
 
     if (!hasError) {
       try {
-        getPosts({ startKey })
+        getPosts({ startKey, isRevest })
           .then(data => {
             const result = data || {};
             const list = result.Items || [];

@@ -7,6 +7,9 @@ enum Actions {
   GetPosts,
   GetPostsSuccess,
   GetPostsFail,
+  GetNewPosts,
+  GetNewPostsSuccess,
+  GetNewPostsFail,
   CreatePost,
   CreatePostSuccess,
   CreatePostFail,
@@ -20,6 +23,7 @@ type StateType = {
   postMap: PostMap;
   paginateKey: PostsPaginateKey | null | undefined;
   isPostLoading: boolean;
+  isNewPostLoading: boolean;
   isPostCreating: boolean;
   isPostCreated: boolean;
   // TODO: API error handling
@@ -30,6 +34,7 @@ const initialState: StateType = {
   postMap: {},
   paginateKey: undefined,
   isPostLoading: false,
+  isNewPostLoading: false,
   isPostCreating: false,
   isPostCreated: false,
 };
@@ -73,6 +78,33 @@ function reducer(state = initialState, action: ActionType) {
       return {
         ...state,
         isPostLoading: false,
+      };
+
+    case Actions.GetNewPosts:
+      return {
+        ...state,
+        isNewPostLoading: true,
+      };
+    case Actions.GetNewPostsSuccess: {
+      const { postsResponse } = action;
+      const { posts, postMap } = state;
+      if (postsResponse?.list) {
+        for (const item of postsResponse.list) {
+          posts.unshift(item.postId);
+          postMap[item.postId] = item;
+        }
+      }
+      return {
+        ...state,
+        posts,
+        postMap,
+        isNewPostLoading: false,
+      };
+    }
+    case Actions.GetNewPostsFail:
+      return {
+        ...state,
+        isNewPostLoading: false,
       };
 
     case Actions.CreatePost:
@@ -140,6 +172,7 @@ function reducer(state = initialState, action: ActionType) {
 const PostsContext = createContext({
   state: initialState,
   loadPosts: () => {},
+  loadNewPosts: (key: PostsPaginateKey) => {},
   createPost: (s: string) => {},
   toggleVote: (type: VoteTypes, postId: string) => {},
 });
@@ -159,6 +192,15 @@ export const PostsProvider: React.SFC = ({ children }) => {
       dispatch({ type: Actions.GetPostsSuccess, postsResponse: res });
     } catch (e) {
       dispatch({ type: Actions.GetPostsFail });
+    }
+  };
+  const loadNewPosts = async (paginateKey: PostsPaginateKey) => {
+    dispatch({ type: Actions.GetNewPosts });
+    try {
+      const res = await getPostsApi(paginateKey, true);
+      dispatch({ type: Actions.GetNewPostsSuccess, postsResponse: res });
+    } catch (e) {
+      dispatch({ type: Actions.GetNewPostsFail });
     }
   };
   const createPost = async (text: string) => {
@@ -189,6 +231,7 @@ export const PostsProvider: React.SFC = ({ children }) => {
       value={{
         state,
         loadPosts,
+        loadNewPosts,
         createPost,
         toggleVote,
       }}

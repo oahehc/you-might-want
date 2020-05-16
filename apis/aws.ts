@@ -140,6 +140,7 @@ export function postPost({ userId, text }: PostPostInput): Promise<any> {
 
 type GetPostsInput = {
   startKey: string;
+  isRevest?: boolean;
 };
 type GetPostsResponse = {
   Items: Post[];
@@ -147,7 +148,7 @@ type GetPostsResponse = {
   ScannedCount: number;
   LastEvaluatedKey: PostsPaginateKey;
 };
-export function getPosts({ startKey }: GetPostsInput): Promise<GetPostsResponse> {
+export function getPosts({ startKey, isRevest }: GetPostsInput): Promise<GetPostsResponse> {
   const params = {
     TableName: postTable,
     IndexName: 'isDisplay-created-index',
@@ -158,7 +159,7 @@ export function getPosts({ startKey }: GetPostsInput): Promise<GetPostsResponse>
       },
     },
     Limit: 5, // FIXME:
-    ScanIndexForward: false,
+    ScanIndexForward: !!isRevest,
   };
 
   if (startKey && Object.keys(startKey).length > 0) {
