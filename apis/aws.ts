@@ -174,3 +174,66 @@ export function getPosts({ startKey }: GetPostsInput): Promise<GetPostsResponse>
     });
   });
 }
+
+type GetPostInput = {
+  postId: string;
+};
+type GetPostResponse = {
+  Item: Post;
+};
+export function getPost({ postId }: GetPostInput): Promise<GetPostResponse> {
+  const params = {
+    TableName: postTable,
+    Key: {
+      postId,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    docClient.get(params, (err, data) => {
+      if (err) reject(err);
+      // @ts-ignore
+      else resolve(data);
+    });
+  });
+}
+
+type PatchPostVoteInput = {
+  type: VoteTypes;
+  postId: string;
+  userId: string;
+};
+export function patchPostVote({ type, postId, userId }: PatchPostVoteInput): Promise<any> {
+  return new Promise((resolve, reject) => {
+    getPost({ postId })
+      .then(({ Item }) => {
+        const votes = type === 'up' ? Item.upVotes : Item.downVotes;
+        const idx = votes.indexOf(userId);
+
+        if (idx < 0) {
+          votes.push(userId);
+        } else {
+          votes.splice(idx, 1);
+        }
+
+        const params = {
+          TableName: postTable,
+          Key: {
+            postId,
+          },
+          ExpressionAttributeNames: {
+            '#vote': `${type}Votes`,
+          },
+          ExpressionAttributeValues: {
+            ':vote': votes,
+          },
+          UpdateExpression: 'SET #vote = :vote',
+        };
+        docClient.update(params, (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        });
+      })
+      .catch(err => reject(err));
+  });
+}

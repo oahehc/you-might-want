@@ -42,3 +42,5 @@ type PostsPaginateKey = {
   created: string;
   postId: string;
 };
+
+type VoteTypes = 'up' | 'down';

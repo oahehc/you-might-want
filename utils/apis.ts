@@ -53,3 +53,18 @@ export const getPostsApi = (startKey?: PostsPaginateKey | null): Promise<GetPost
       .catch(reject);
   });
 };
+
+type PatchVoteInput = {
+  type: VoteTypes;
+  postId: string;
+};
+export const patchVote = (data: PatchVoteInput, authInstance?: AxiosInstance): Promise<any> => {
+  const instance = authInstance || axiosInstance;
+
+  return new Promise((resolve, reject) => {
+    instance
+      .patch(`${apiUrl}/api/patch-vote`, data)
+      .then(res => resolve(res.data))
+      .catch(reject);
+  });
+};
