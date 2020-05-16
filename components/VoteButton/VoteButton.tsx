@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { useGlobalModalContext } from '@contexts/GlobalModal';
 import useOAuth from '@hooks/useOAuth';
 import useMonetization from '@hooks/useMonetization';
-import { apiUrl, patchVote } from '@utils/apis';
+import { usePostsContext } from '@contexts/Posts';
 import styles from './VoteButton.style';
 
 type Props = {
@@ -14,14 +14,14 @@ type Props = {
 };
 
 const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
-  const { oauthState, authRequestFactory } = useOAuth();
-  const authRequest = authRequestFactory(apiUrl);
-  const { sub } = (oauthState && oauthState.profile) || {};
+  const { oauthState } = useOAuth();
+  const { sub } = oauthState?.profile || {};
   const isVoted = sub && votes.includes(sub);
   const { isLogin } = oauthState || {};
   const [{ isStarted }] = useMonetization();
   const { showRegisterModal, showMonetizationModal } = useGlobalModalContext();
   const [animate, setAnimate] = useState<'plus' | 'minus' | ''>('');
+  const { toggleVote } = usePostsContext();
 
   async function handleVote() {
     if (!isLogin) {
@@ -31,13 +31,7 @@ const VoteButton: React.FC<Props> = ({ postId, type, votes }) => {
       showMonetizationModal();
     } else {
       setAnimate(isVoted ? 'minus' : 'plus');
-      await patchVote(
-        {
-          type,
-          postId,
-        },
-        authRequest
-      );
+      await toggleVote(type, postId);
       setAnimate('');
     }
   }

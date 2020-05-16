@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import App from 'next/app';
 import { GlobalModalProvider } from '@contexts/GlobalModal';
+import { PostsProvider } from '@contexts/Posts';
 import globalStyle from '@styles/global.style';
 import resetStyle from '@styles/reset.style';
 
@@ -23,7 +24,9 @@ export default class MyApp extends App {
           {globalStyle}
         </style>
         <GlobalModalProvider>
-          <Component {...pageProps} />
+          <PostsProvider>
+            <Component {...pageProps} />
+          </PostsProvider>
         </GlobalModalProvider>
       </>
     );

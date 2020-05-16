@@ -37,6 +37,8 @@ type Post = {
   isDisplay: boolean;
 };
 
+type PostMap = { [id: string]: Post };
+
 type PostsPaginateKey = {
   isDisplay: boolean;
   created: string;

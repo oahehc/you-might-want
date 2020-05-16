@@ -37,7 +37,7 @@ export default async (req: express.Request, res: express.Response) => {
           text,
         })
           .then(res => {
-            response(StatusCode.success, { res: 'postPost success' });
+            response(StatusCode.success, { post: res });
           })
           .catch(err => response(StatusCode.unKnowError, { errorMsg: err.message }));
       } catch (e) {

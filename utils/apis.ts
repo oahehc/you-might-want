@@ -28,18 +28,21 @@ export const patchUserWalletApi = (id: string, wallet: string, authInstance?: Ax
   });
 };
 
-export const postPostApi = (id: string, text: string, authInstance?: AxiosInstance): Promise<any> => {
+export type PostPostResponse = {
+  statusCode: number;
+  post: Post;
+};
+export const postPostApi = (id: string, text: string, authInstance?: AxiosInstance): Promise<PostPostResponse> => {
   const instance = authInstance || axiosInstance;
-
   return new Promise((resolve, reject) => {
     instance
       .post(`${apiUrl}/api/post-post`, { id, text })
-      .then(res => resolve(res))
+      .then(res => resolve(res.data))
       .catch(reject);
   });
 };
 
-type GetPostsResponse = {
+export type GetPostsResponse = {
   statusCode: number;
   list: Post[];
   lastKey: PostsPaginateKey | null;

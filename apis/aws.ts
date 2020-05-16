@@ -133,7 +133,7 @@ export function postPost({ userId, text }: PostPostInput): Promise<any> {
   return new Promise((resolve, reject) => {
     docClient.put(params, (err, res) => {
       if (err) reject(err);
-      else resolve(res);
+      else resolve(data);
     });
   });
 }

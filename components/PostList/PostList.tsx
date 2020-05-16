@@ -1,26 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { LoadingWrapper, Time, VoteButton } from '@components/index';
-import { getPostsApi } from '@utils/apis';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
+import { usePostsContext } from '@contexts/Posts';
+import { selectPosts } from '@contexts/PostsSelector';
 import styles from './PostList.style';
 
 const PostList: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [lastKey, setLastKey] = useState<PostsPaginateKey | null | undefined>(undefined);
-  const [isLoading, setLoading] = useState(false);
-
-  async function loadPosts() {
-    setLoading(true);
-    const res = await getPostsApi(lastKey);
-    setPosts(list => [...list, ...res.list]);
-    setLastKey(res.lastKey);
-    setLoading(false);
-  }
+  const { state, loadPosts } = usePostsContext();
+  const posts = selectPosts(state.posts, state.postMap);
 
   // infinite loading
   const element = useRef(null);
   function onView() {
-    if (lastKey !== null) {
+    if (state && state.paginateKey !== null) {
       loadPosts();
     } else {
       return true;
@@ -46,7 +38,7 @@ const PostList: React.FC = () => {
           </div>
         </div>
       ))}
-      <LoadingWrapper innerRef={element} isLoading={isLoading} />
+      <LoadingWrapper innerRef={element} isLoading={state && state.isPostLoading} />
       <style jsx>{styles}</style>
     </div>
   );

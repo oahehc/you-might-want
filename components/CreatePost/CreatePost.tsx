@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useOAuth from '@hooks/useOAuth';
-import { apiUrl, postPostApi } from '@utils/apis';
+import { usePostsContext } from '@contexts/Posts';
 import { Loading, Avatar, Button } from '@components/index';
 import styles from './CreatePost.style';
 
 const MAX_INPUT = 500;
 
 const CreatePost: React.FC = () => {
-  const { oauthState, authRequestFactory } = useOAuth();
-  const authRequest = authRequestFactory(apiUrl);
-  const { sub, picture, name, email } = (oauthState && oauthState.profile) || {};
+  const { oauthState } = useOAuth();
+  const { picture, name, email } = oauthState?.profile || {};
   const { isLogin } = oauthState || {};
   const [text, setText] = useState('');
-  const [isSubmitting, setSubmitting] = useState(false);
+  const { state, createPost } = usePostsContext();
 
   function handleTyping(event: React.ChangeEvent<HTMLTextAreaElement>) {
     // TODO: prevent hyperlink?
@@ -20,19 +19,9 @@ const CreatePost: React.FC = () => {
       setText(event.target.value);
     }
   }
-  async function handleSubmit() {
+  function handleSubmit() {
     if (text) {
-      try {
-        setSubmitting(true);
-        // @ts-ignore
-        await postPostApi(sub, text, authRequest);
-        setText('');
-        setSubmitting(false);
-        // TODO: insert the new post to the top of the list
-      } catch (error) {
-        setSubmitting(false);
-        // TODO: error handle
-      }
+      createPost(text);
     }
   }
   function getCharacterLimitWarning() {
@@ -40,6 +29,12 @@ const CreatePost: React.FC = () => {
     if (text.length > MAX_INPUT * 0.8) return 'yellow';
     return '';
   }
+
+  useEffect(() => {
+    if (state?.isPostCreated) {
+      setText('');
+    }
+  }, [state?.isPostCreated]);
 
   if (!isLogin) return null;
 
@@ -54,10 +49,10 @@ const CreatePost: React.FC = () => {
         <Button
           onClick={handleSubmit}
           invert={!text}
-          disabled={!text || isSubmitting}
+          disabled={!text || state?.isPostCreating}
           style={{ width: '100px', height: '40px' }}
         >
-          {isSubmitting ? <Loading /> : 'Submit'}
+          {state?.isPostCreating ? <Loading /> : 'Submit'}
         </Button>
       </div>
       <style jsx>{styles}</style>

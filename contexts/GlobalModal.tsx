@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import { Modal, Button, RegisterInfo, MonetizationInfo } from '@components/index';
 
-export enum Actions {
+enum Actions {
   ShowModal,
   CloseModal,
 }
@@ -13,7 +13,7 @@ type StateType = {
   modalCategory?: ModalCategoryType;
 };
 
-export const initialState: StateType = {
+const initialState: StateType = {
   isShow: false,
 };
 
@@ -22,7 +22,7 @@ type ActionType = {
   data?: ModalCategoryType;
 };
 
-export function reducer(state = initialState, action: ActionType) {
+function reducer(state = initialState, action: ActionType) {
   switch (action.type) {
     case Actions.ShowModal:
       return {
