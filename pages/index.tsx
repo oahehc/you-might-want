@@ -25,9 +25,11 @@ export const getServerSideProps = async ({ res }: { res: express.Response }) => 
   if (res) {
     try {
       const { data } = await getProbabilisticSharing();
-      paymentPoint = selectByProbabilistic(data);
-      res.setHeader('Cache-Control', 'private,max-age=0,must-revalidate');
-      res.setHeader('ETag', etag(paymentPoint, { weak: true }));
+      if (data && Object.keys(data).length > 0) {
+        paymentPoint = selectByProbabilistic(data);
+        res.setHeader('Cache-Control', 'private,max-age=0,must-revalidate');
+        res.setHeader('ETag', etag(paymentPoint, { weak: true }));
+      }
     } catch (error) {
       console.error('get sharing fail');
     }

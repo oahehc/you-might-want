@@ -310,12 +310,16 @@ async function updateProbabilisticSharing() {
       {}
     );
 
+    console.log('[Post Point]', new Date().toISOString());
+
     let totalPoints = 0;
     const points = posts.reduce((res: { [w: string]: number }, post) => {
       const wallet = userMap[post.userId];
       if (!wallet) return res;
 
       const postPoint = getPostPoint(post);
+      console.log('-----', post.created, post.upVotes.length, post.downVotes.length, postPoint);
+
       totalPoints += postPoint;
       if (res[wallet]) {
         res[wallet] = res[wallet] + postPoint;
@@ -373,7 +377,7 @@ export function getProbabilisticSharing(): Promise<{
       if (err) reject(err);
       else {
         const item = data?.Items?.[0];
-        if (item) {
+        if (item && item.created) {
           const lastModify = Date.now() - new Date(item.created).getTime();
           if (lastModify > PROBABILISTIC_UPDATE_PERIOD) updateProbabilisticSharing();
         }
