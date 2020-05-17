@@ -15,7 +15,6 @@ export default class MyApp extends App {
         <Head>
           <title>You Might Want...</title>
           <link rel="shortcut icon" href="/static/favicon.svg"></link>
-          <meta name="monetization" content="$coil.xrptipbot.com/3c513f24-3afe-452b-a85d-726e93bfd8ea" />
         </Head>
         <style global jsx>
           {resetStyle}

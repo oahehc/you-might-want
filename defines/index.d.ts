@@ -27,6 +27,15 @@ type GoogleOAuthTokenType = {
   id_token: string;
 };
 
+type User = {
+  created: string;
+  email: string;
+  lastVisited: string;
+  name: string;
+  userId: string;
+  wallet: string;
+};
+
 type Post = {
   postId: string;
   userId: string;

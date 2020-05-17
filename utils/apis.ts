@@ -74,3 +74,18 @@ export const patchVote = (data: PatchVoteInput, authInstance?: AxiosInstance): P
       .catch(reject);
   });
 };
+
+type ProbabilisticSharingResponse = {
+  statusCode: number;
+  data: {
+    [wallet: string]: number;
+  };
+};
+export const getProbabilisticSharing = (): Promise<ProbabilisticSharingResponse> => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .patch(`${apiUrl}/api/get-probabilistic-sharing`)
+      .then(res => resolve(res.data))
+      .catch(reject);
+  });
+};
