@@ -1,6 +1,6 @@
 import React from 'react';
 import { MdExposurePlus1 } from 'react-icons/md';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 import { Button, Modal } from '@components/index';
 import styles from './ModalInfo.style';
 

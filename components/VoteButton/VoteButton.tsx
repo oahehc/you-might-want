@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MdThumbDown, MdThumbUp } from 'react-icons/md';
 import cx from 'classnames';
 import { useGlobalModalContext } from '@contexts/GlobalModal';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 import useMonetization from '@hooks/useMonetization';
 import { usePostsContext } from '@contexts/Posts';
 import styles from './VoteButton.style';

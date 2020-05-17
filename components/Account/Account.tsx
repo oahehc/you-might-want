@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Loading, Avatar, Modal, Button, Input } from '@components/index';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 import { apiUrl, patchUserWalletApi } from '@utils/apis';
 import styles from './Account.style';
 

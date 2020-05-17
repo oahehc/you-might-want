@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 import { apiUrl, getPostsApi, GetPostsResponse, postPostApi, patchVote } from '@utils/apis';
 import { toggleVote } from './postsUtils';
 

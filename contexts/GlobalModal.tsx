@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import { Modal, Button, RegisterInfo, MonetizationInfo } from '@components/index';
+import { Modal, RegisterInfo, MonetizationInfo } from '@components/index';
 
 enum Actions {
   ShowModal,

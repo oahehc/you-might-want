@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { LoadingWrapper } from '@components/index';
 import LoginModal from '@components/LoginModal/LoginModal';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 
 type Query = {
   state: string;

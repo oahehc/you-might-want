@@ -3,6 +3,7 @@ import Head from 'next/head';
 import App from 'next/app';
 import { GlobalModalProvider } from '@contexts/GlobalModal';
 import { PostsProvider } from '@contexts/Posts';
+import { OAuthProvider } from '@contexts/OAuth';
 import globalStyle from '@styles/global.style';
 import resetStyle from '@styles/reset.style';
 
@@ -23,9 +24,11 @@ export default class MyApp extends App {
           {globalStyle}
         </style>
         <GlobalModalProvider>
-          <PostsProvider>
-            <Component {...pageProps} />
-          </PostsProvider>
+          <OAuthProvider>
+            <PostsProvider>
+              <Component {...pageProps} />
+            </PostsProvider>
+          </OAuthProvider>
         </GlobalModalProvider>
       </>
     );

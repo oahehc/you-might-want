@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-export const apiUrl = process.env.base_url;
+export const apiUrl = process.env.base_url || '/';
 const axiosInstance = axios.create({ baseURL: apiUrl });
 
 export const getProfileByIdTokenApi = (

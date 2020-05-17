@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useOAuth from '@hooks/useOAuth';
+import { useOAuth } from '@contexts/OAuth';
 import { usePostsContext } from '@contexts/Posts';
 import { Loading, Avatar, Button } from '@components/index';
 import styles from './CreatePost.style';
