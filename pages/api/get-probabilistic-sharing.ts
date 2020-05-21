@@ -7,19 +7,8 @@ export default async (req: express.Request, res: express.Response) => {
   const response = responseFactory(res);
 
   try {
-    let hasError = false;
-
-    if (!hasError) {
-      try {
-        getProbabilisticSharing()
-          .then(data => {
-            response(StatusCode.success, { data });
-          })
-          .catch(err => response(StatusCode.unKnowError, { errorMsg: err.message }));
-      } catch (e) {
-        response(StatusCode.unAuth, { errorMsg: e.message });
-      }
-    }
+    const data = await getProbabilisticSharing();
+    response(StatusCode.success, { data });
   } catch (err) {
     response(StatusCode.unKnowError, { errorMsg: err.message });
   }
