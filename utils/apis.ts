@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-export const apiUrl = process.env.base_url || '/';
+export const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || '/';
 const axiosInstance = axios.create({ baseURL: apiUrl });
 
 export const getProfileByIdTokenApi = (
@@ -12,6 +12,47 @@ export const getProfileByIdTokenApi = (
   return new Promise((resolve, reject) => {
     axiosInstance
       .post(`${apiUrl}/api/auth-post-user-profile`, { idToken })
+      .then(res => resolve(res.data))
+      .catch(reject);
+  });
+};
+
+export const postTokenByAuthCode = (
+  code: string
+): Promise<{
+  statusCode: number;
+  data: {
+    access_token: string;
+    refresh_token: string;
+    id_token: string;
+    scope: string;
+    token_type: string;
+    expires_in: number;
+  };
+}> => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .post(`${apiUrl}/api/auth-post-code-to-token`, { code })
+      .then(res => resolve(res.data))
+      .catch(reject);
+  });
+};
+
+export const postRefreshToken = (
+  refreshToken: string
+): Promise<{
+  statusCode: number;
+  data: {
+    access_token: string;
+    id_token: string;
+    scope: string;
+    token_type: string;
+    expires_in: number;
+  };
+}> => {
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .post(`${apiUrl}/api/auth-post-refresh-token`, { refreshToken })
       .then(res => resolve(res.data))
       .catch(reject);
   });

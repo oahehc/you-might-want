@@ -20,7 +20,7 @@ const IndexPage = ({ paymentPoint }: { paymentPoint: string }) => {
 export default IndexPage;
 
 export const getServerSideProps = async ({ res }: { res: express.Response }) => {
-  let paymentPoint = process.env.default_wallet;
+  let paymentPoint = process.env.NEXT_PUBLIC_DEFAULT_WALLET;
 
   if (res) {
     try {

@@ -1,13 +1,11 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import axios, { AxiosInstance } from 'axios';
 import useLocalStorage, { oauthKeys } from '@hooks/useLocalStorage';
-import { getProfileByIdTokenApi } from '@utils/apis';
+import { getProfileByIdTokenApi, postTokenByAuthCode, postRefreshToken } from '@utils/apis';
 
-const clientId = process.env.google_oauth_client_id;
-const clientSecret = process.env.google_oauth_client_secret;
-const redirectUri = `${process.env.base_url}/login`;
+const clientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID;
+const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/login`;
 const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-const oauth2TokenEndpoint = 'https://www.googleapis.com/oauth2/v4/token';
 
 type OAuthStateType = 'init' | 'login' | 'logout';
 type authStateType = {
@@ -133,16 +131,7 @@ export const OAuthProvider: React.SFC = ({ children }) => {
 
   // https://developers.google.com/identity/protocols/OAuth2InstalledApp#exchange-authorization-code
   async function handleExchangeAuthCodeToToken(code: string): Promise<null> {
-    const params = {
-      code,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-      grant_type: 'authorization_code',
-    };
-    const { data } = await axios.post(oauth2TokenEndpoint, null, {
-      params,
-    });
+    const { data } = await postTokenByAuthCode(code);
 
     const { access_token, refresh_token, id_token } = data || {};
     if (id_token) {
@@ -160,16 +149,7 @@ export const OAuthProvider: React.SFC = ({ children }) => {
 
   // https://developers.google.com/identity/protocols/OAuth2InstalledApp#offline
   async function handleRefreshToken(refreshToken: string): Promise<GoogleOAuthTokenType> {
-    const params = {
-      client_id: clientId,
-      client_secret: clientSecret,
-      refresh_token: refreshToken,
-      grant_type: 'refresh_token',
-    };
-
-    const { data } = await axios.post(oauth2TokenEndpoint, null, {
-      params,
-    });
+    const { data } = await postRefreshToken(refreshToken);
 
     if (!data || !data.access_token || !data.id_token) {
       throw new Error('refresh token fail');

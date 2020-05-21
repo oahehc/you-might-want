@@ -1,9 +1,9 @@
 import AWS from 'aws-sdk';
-import { v1 as uuidv1, v1 } from 'uuid';
+import { v1 as uuidv1 } from 'uuid';
 
-const region = process.env.aws_region || 'us-east-1';
-const accessKeyId = process.env.aws_access_key_id;
-const secretAccessKey = process.env.aws_secret_access_key;
+const region = process.env.MY_AWS_REGION || 'us-east-1';
+const accessKeyId = process.env.MY_AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.MY_AWS_SECRET_ACCESS_KEY;
 const userTable = 'you-might-want-users';
 const postTable = 'you-might-want-posts';
 const shareTable = 'you-might-want-shares';

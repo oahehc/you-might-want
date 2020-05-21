@@ -1,7 +1,7 @@
 import { OAuth2Client } from 'google-auth-library';
 import { StatusCode, ApiError } from '@utils/apiUtils';
 
-const clientId = process.env.google_oauth_client_id as string;
+const clientId = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_CLIENT_ID as string;
 const oauthClient = new OAuth2Client(clientId);
 
 export async function getProfileByIdToken(idToken: string): Promise<GoogleOAuthProfileType> {
