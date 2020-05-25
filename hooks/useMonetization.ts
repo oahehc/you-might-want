@@ -1,53 +1,51 @@
 import { useState, useEffect } from 'react';
 
-type MonetizationState = 'stopped' | 'pending' | 'started' | undefined;
 type MonetizationInfo = {
-  state: MonetizationState;
+  state: MonetizationState | undefined;
   isApplied: boolean;
   isStarted: boolean;
   isPending: boolean;
   isStopped: boolean;
+  detail: MonetizationEventDetail | undefined;
 };
 
 export default function useMonetization(): [MonetizationInfo] {
   const [state, setState] = useState<MonetizationState>();
+  const [detail, setDetail] = useState<MonetizationEventDetail>();
 
-  function pendingEventHandler() {
+  function pendingEventHandler(event: MonetizationEvent) {
     setState('pending');
+    setDetail(event.detail);
   }
-  function stoppedEventHandler() {
+  function stoppedEventHandler(event: MonetizationEvent) {
     setState('stopped');
+    setDetail(event.detail);
   }
-  function startedEventHandler() {
+  function startedEventHandler(event: MonetizationEvent) {
     setState('started');
+    setDetail(event.detail);
+  }
+  function onprogressEventHandler(event: MonetizationEvent) {
+    setDetail(event.detail);
   }
 
   useEffect(() => {
-    // @ts-ignore
     if (document !== undefined && document.monetization !== undefined) {
-      // @ts-ignore
       const defaultState = document.monetization.state;
-
       setState(defaultState);
 
-      // @ts-ignore
       document.monetization.addEventListener('monetizationstart', startedEventHandler);
-      // @ts-ignore
       document.monetization.addEventListener('monetizationpending', pendingEventHandler);
-      // @ts-ignore
       document.monetization.addEventListener('monetizationstop', stoppedEventHandler);
-      // document.monetization.addEventListener('monetizationprogress', pendingEventHandler);
+      document.monetization.addEventListener('monetizationprogress', onprogressEventHandler);
     }
 
     return () => {
-      // @ts-ignore
       if (document !== undefined && document.monetization !== undefined) {
-        // @ts-ignore
         document.monetization.removeEventListener('monetizationstart', startedEventHandler);
-        // @ts-ignore
         document.monetization.removeEventListener('monetizationpending', pendingEventHandler);
-        // @ts-ignore
         document.monetization.removeEventListener('monetizationstop', stoppedEventHandler);
+        document.monetization.removeEventListener('monetizationprogress', onprogressEventHandler);
       }
     };
   }, []);
@@ -59,6 +57,7 @@ export default function useMonetization(): [MonetizationInfo] {
       isStarted: state === 'started',
       isPending: state === 'pending',
       isStopped: state === 'stopped',
+      detail,
     },
   ];
 }
