@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.673.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "etag": "^1.8.1",
     "google-auth-library": "^6.0.0",
